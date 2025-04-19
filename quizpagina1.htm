@@ -1,0 +1,388 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+        }
+        .header{
+            position:fixed;
+            top:0;
+            z-index:1000;
+            width:100%;
+            padding:20px 100px;
+            background: rgba(255, 255, 255, 0.1);
+            display:flex;
+            align-items:center;
+            backdrop-filter: blur(10px);
+            border-bottom:2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        .home{
+            width:50px;
+            height:auto;
+            margin-right: auto;
+        }
+        .achtergrond1 {
+            position: absolute;
+            width: 100%;
+            height:100%;
+            top:0px;
+            left:0px;
+            z-index:-1;
+        }
+        .achtergrond1 img{
+            width: 100%;
+            height:100%;
+            object-fit: cover;
+            display: block;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .quizvak{
+            background: whitesmoke;
+            padding: 20px;
+            width:300px;
+            border-radius: 10px;
+            box-shadow:0 0 10px black (0,0,0,0.1);
+
+        }
+        .bovenkant h2{
+            margin-bottom: 20px;
+        }
+        ul{
+            list-style-type: none;
+           padding:0px 
+        }
+        li{
+           margin-bottom: 10px; 
+        }
+        button{
+            background-color: blue;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: lightskyblue;
+        }
+        .antwoord{
+            display: none;
+        }
+        .antwoord + label{
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            display: inline-block;
+            color: grey;
+            transition:color 0.3s;
+        }
+        .antwoord + label:before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:0;
+            width: 20px;
+            height: 20px;
+            border:2px solid blue;
+            border-radius: 50%;
+            background-color: white;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .antwoord:checked + label:before{
+            background-color: blue;
+            border-color: blue;
+        }
+        .antwoord + label:hover::before{
+            border-color: darkblue;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 200px;
+            box-sizing: border-box;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="achtergrond1">
+            <img src="foto quiz1.jpg">
+        </div>
+        <header class="header">
+            <a href="PO_JS_1.htm">
+            <img src="home logo1.png", class="home">
+            </a>
+        </header>
+        <div class="container">
+            <div class="quizvak" id="quiz">
+                <div class="bovenkant">
+                    <h2 id="vragen">Vragen</h2>
+                    <ul>
+                        <li><input type="radio" id="a" name="antwoord" class="antwoord"><label for="a" id="a_tekst">Antwoord</label> </li>
+                        <li><input type="radio" id="b" name="antwoord" class="antwoord"><label for="b" id="b_tekst">Antwoord</label> </li>
+                        <li><input type="radio" id="c" name="antwoord" class="antwoord"><label for="c" id="c_tekst">Antwoord</label> </li>
+                        <li><input type="radio" id="d" name="antwoord" class="antwoord"><label for="d" id="d_tekst">Antwoord</label> </li>
+                    </ul>
+                </div>
+                <button id="insturen">insturen</button>
+            </div>
+        </div>
+        <script>
+            // Een lijst met quizvragen. elke vraag bevat vier vragen en het correcte antwoord.
+            const quizvragen = [
+                {
+                    vraag: "Welk land produceert de meeste chocolade ter wereld?",
+                    a: "België",
+                    b: "Zwitserland",
+                    c: "Ghana",
+                    d: "Ivoorkust",
+                    correct: "c"
+                },
+                {
+                    vraag: "In welk land vindt je de oudste continu bewoonde stad ter wereld?",
+                    a: "Egypte",
+                    b: "Irak",
+                    c: "Syrië",
+                    d: "Israël",
+                    correct: "b"
+                },
+                {
+                    vraag: "Welke planeet staat bekend als de 'rode planeet'?",
+                    a: "Venus",
+                    b: "Mars",
+                    c: "Jupiter",
+                    d: "Saturnus",
+                    correct: "b"
+                },
+                {
+                    vraag: "Wat is de grootste oceaan ter wereld?",
+                    a: "Atlantische Oceaan",
+                    b: "Indische Oceaan",
+                    c: "Arctische Oceaan",
+                    d: "Stille Oceaan",
+                    correct: "d"
+                },
+                {
+                    vraag: "Wat is de hoofdstad van Australië?",
+                    a: "Sydney",
+                    b: "Melbourne",
+                    c: "Canberra",
+                    d: "Perth",
+                    correct: "c"
+                },
+                {
+                    vraag: "Wat is de naam van de langste rivier ter wereld?",
+                    a: "Amazonerivier",
+                    b: "Nijl",
+                    c: "Yangtze",
+                    d: "Mississippi",
+                    correct: "a"
+                },
+                {
+                    vraag: "Wat is de naam van het hoogste gebergte ter wereld?",
+                    a: "Alpen",
+                    b: "Himalaya",
+                    c: "Andes",
+                    d: "Rocky Mountains",
+                    correct: "b"
+                },
+                {
+                    vraag: "Welke planeet staat het dichtst bij de zon?",
+                    a: "Venus",
+                    b: "Aarde",
+                    c: "Mercurius",
+                    d: "Mars",
+                    correct: "c"
+                },
+                {
+                    vraag: "Wie schreef 'Romeo en Julia'?",
+                    a: "Charles Dickens",
+                    b: "William Shakespeare",
+                    c: "Jane Austen",
+                    d: "Homerus",
+                    correct: "b"
+                },
+                {
+                    vraag: "Wat is de grootste woestijn ter wereld?",
+                    a: "Sahara",
+                    b: "Karakum",
+                    c: "Gobi",
+                    d: "Antarctica",
+                    correct: "d"
+                },
+                {
+                    vraag: "Welke beroemde uitvinder is verantwoordelijk voor de uitvinding van de gloeilamp?",
+                    a: "Nikola Tesla",
+                    b: "Thomas Edison",
+                    c: "Alexander Graham Bell",
+                    d: "Michael Faraday",
+                    correct: "b"
+                },
+                {
+                    vraag: "Welk land heeft de grootste bevolking ter wereld?",
+                    a: "India",
+                    b: "China",
+                    c: "Verenigde Staten",
+                    d: "Indonesië",
+                    correct: "b"
+                },
+                {
+                    vraag: "Welke kleur heeft het bloed van een octopus?",
+                    a: "Blauw",
+                    b: "Rood",
+                    c: "Groen",
+                    d: "Paars",
+                    correct: "a"
+                },
+                {
+                    vraag: "In welk jaar werd de Berlijnse Muur afgebroken?",
+                    a: "1985",
+                    b: "1989",
+                    c: "1991",
+                    d: "1993",
+                    correct: "b"
+                },
+                {
+                    vraag: "Wat is de naam van het grootste eiland ter wereld?",
+                    a: "Madagaskar",
+                    b: "Groenland",
+                    c: "Nieuw-Guinea",
+                    d: "Borneo",
+                    correct: "b"
+                },
+                {
+                    vraag: "Wat is de nationale bloem van Japan?",
+                    a: "Lelie",
+                    b: "Roos",
+                    c: "Tulp",
+                    d: "Sakura (kersenbloesem)",
+                    correct: "d"
+                },
+                {
+                    vraag: "Welke sport wordt gespeeld op Wimbledon?",
+                    a: "Voetbal",
+                    b: "Tennis",
+                    c: "Rugby",
+                    d: "Honkbal",
+                    correct: "b"
+                },
+                {
+                    vraag: "Welke stad staat bekend als de 'Ewige Stad'?",
+                    a: "Athene",
+                    b: "Rome",
+                    c: "Jeruzalem",
+                    d: "Cairo",
+                    correct: "b"
+                },
+                {
+                    vraag: "Welke bekende muziekartiest stond bekend als de 'King of Pop'?",
+                    a: "Elvis Presley",
+                    b: "Michael Jackson",
+                    c: "Prince",
+                    d: "David Bowie",
+                    correct: "b"
+                },
+                {
+                    vraag: "Wat is de belangrijkste taal die wordt gesproken in Brazilië?",
+                    a: "Spaans",
+                    b: "Portugees",
+                    c: "Engels",
+                    d: "Frans",
+                    correct: "b"
+                },
+            ];
+            //houd bij welke vraag je bent
+            let huidigeVraag = 0;
+
+            //hou de score bij 
+            let score = 0;
+
+            //haalt de vraag op 
+            const vraagE1 = document.getElementById('vragen');
+
+            //haalt de antwoorden op 
+            const a_tekst = document.getElementById('a_tekst');
+            const b_tekst = document.getElementById('b_tekst');
+            const c_tekst = document.getElementById('c_tekst');
+            const d_tekst = document.getElementById('d_tekst');
+
+            //knop voor insturen gekozen antwoord
+            const insturenBtn = document.getElementById('insturen');
+
+            //haalt mogelijke antwoorden op
+            const antwoorden = document.querySelectorAll('.antwoord');
+
+            //quiz container ophalen
+            const quiz = document.getElementById('quiz');
+
+            //start quiz door vraag te laden
+            laadvraag();
+
+            //laden huidige vraag en zet teksten in HTML
+            function laadvraag(){
+
+                //zodat er niks is geselecteerd eerst
+                nietselecteren();
+    
+                //haalt gegevens van huidige vraag op uit lijst 
+                const huidigeData = quizvragen[huidigeVraag];
+
+                //vraag en antwoorden juiste plek in HTmL
+                vraagE1.innerText = huidigeData.vraag;
+                a_tekst.innerText = huidigeData.a;
+                b_tekst.innerText = huidigeData.b;
+                c_tekst.innerText = huidigeData.c;
+                d_tekst.innerText = huidigeData.d;
+            }
+            //geselecteerd eerder antwoord reset
+            function nietselecteren() {
+                antwoorden.forEach(answer => answer.checked = false);
+            }
+            //functie kijkt welk antwoord is geselecteerd
+            function welselecteren() {
+                let antwoord;
+
+                //checkt welke button is gekozen
+                antwoorden.forEach(a => {
+                    if(a.checked) {
+                        antwoord = a.id;
+                    }
+                })
+                return antwoord;
+            }
+            //uitgevoerd als er op insturen word geklikt  
+            insturenBtn.addEventListener('click', () => {
+                const gekozen = welselecteren();
+
+                //is er iets gekozen?
+                if (gekozen) {
+
+                    //is het juist?
+                    if (gekozen === quizvragen[huidigeVraag].correct) {
+                        score++;
+                    }
+                    //volgende vraag
+                    huidigeVraag++;
+
+                    //zijn er nog meer vragen?>volgende
+                    if(huidigeVraag < quizvragen.length) {
+                        laadvraag();
+
+                    // geen vragen meer>eindscore 
+                    } else {
+                        quiz.innerHTML = "<h2>Je hebt " + score + "/" + quizvragen.length + " vragen goed beantwoord!</h2>"
+                        "<button onclick='location.reload()'>Opnieuw proberen</button>";
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
