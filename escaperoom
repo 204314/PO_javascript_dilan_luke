@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function beginescaperoom() {
+            alert("Welkom bij de escaperoom! Klik op Ok om te starten!");
+
+            // eerste raadsel geheimcijfer raden
+            let geheimcijfer = 69
+            let geradencijfer = 0
+            
+            while (geradencijfer != geheimcijfer) {
+                geradencijfer = prompt("Raad het getal tussen de 0 en 200 om door te kunnen gaan.")
+                if (geradencijfer < geheimcijfer) {
+                    alert("Te laag, probeer het opnieuw")}
+                if (geradencijfer > geheimcijfer) {
+                        alert("Te hoog, probeer het opnieuw")}
+                if ( geradencijfer > 200) {
+                    alert("IK ZEI TUSSEN DE 0 EN 200!!!!!!!") }
+            while (geradencijfer == geheimcijfer){
+                alert("Goed gedaan!")
+            }
+            
+                    
+                }
+            }
+            
+            
+            
+                
+            
+
+        
+    </script>
+</head>
+</html>
+
 
